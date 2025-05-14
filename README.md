@@ -1,45 +1,45 @@
 # Bento
 
-FastAPI 기반 로컬 AI 챗봇 스타터킷
+A FastAPI-based local AI chatbot starter kit
 
-## 기능
+## Features
 
-- **다중 AI 모델**: OpenAI, Anthropic
-- **RAG 지원**: PDF/DOCX/TXT 문서 기반 질의응답
-- **실시간 스트리밍**: 응답 스트리밍, 대화 컨텍스트 관리
-- **데스크톱 앱**: Windows/MacOS 지원
+- **Multi-AI Models**: OpenAI GPT-4, Anthropic Claude 3 Sonnet
+- **RAG Support**: PDF/DOCX/TXT document-based Q&A
+- **Real-time Streaming**: Response streaming, conversation context management
+- **Desktop App**: Windows/MacOS support
 
-## 기술 스택
+## Tech Stack
 
 - **Backend**: FastAPI (Python 3.12), ChromaDB, PyPDF, docx2txt
 - **Frontend**: Vanilla JavaScript, TailwindCSS  
 - **AI/ML**: OpenAI API, Anthropic API
-- **도구**: Poetry, PyInstaller
+- **Tools**: Poetry, PyInstaller
 
-## 요구사항
+## Requirements
 
 - Python 3.10+
 - Poetry
-- OpenAI API 키 (필수)
-- Anthropic API 키 (선택)
+- OpenAI API key (required)
+- Anthropic API key (optional)
 
-## 설치
+## Installation
 
 ```bash
 git clone https://github.com/root39293/bento.git
 cd bento
-curl -sSL https://install.python-poetry.org | python3 -  # Poetry 미설치시
+curl -sSL https://install.python-poetry.org | python3 -  # if Poetry not installed
 poetry install
 ```
 
-## 실행
+## Usage
 
-**개발 서버**
+**Development Server**
 ```bash
 poetry run uvicorn src.main:app --reload
 ```
 
-**데스크톱 빌드**
+**Desktop Build**
 ```bash
 # Windows
 poetry run python build_win.py
@@ -48,25 +48,25 @@ poetry run python build_win.py
 poetry run python build_mac.py
 ```
 
-## 사용법
+## How to Use
 
-1. 브라우저 접속: `http://localhost:8000`
-2. API 키 설정
-3. 모델 선택 및 옵션 설정
-4. 대화 시작 (RAG 사용시 문서 업로드)
+1. Access browser: `http://localhost:8000`
+2. Configure API keys
+3. Select model and options
+4. Start conversation (upload documents for RAG)
 
-## 구조
+## Structure
 
 ```
 bento-chat-assistant/
 ├── src/
-│   ├── chat/           # 채팅 모듈
-│   ├── core/           # 설정/상태 관리
-│   ├── rag/            # RAG 모듈
-│   ├── desktop.py      # 데스크톱 진입점
-│   └── main.py         # FastAPI 진입점
-├── static/             # 프론트엔드
-├── config/             # 설정 파일
-├── data/              # 데이터
-└── build_*.py         # 빌드 스크립트
+│   ├── chat/           # Chat modules
+│   ├── core/           # Config/state management
+│   ├── rag/            # RAG modules
+│   ├── desktop.py      # Desktop entry point
+│   └── main.py         # FastAPI entry point
+├── static/             # Frontend files
+├── config/             # Configuration
+├── data/              # Data storage
+└── build_*.py         # Build scripts
 ```
