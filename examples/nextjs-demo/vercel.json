@@ -5,7 +5,6 @@
   "framework": "nextjs",
   "regions": ["icn1"],
   "env": {
-    "OPENROUTER_API_KEY": "@openrouter-api-key",
     "NEXT_PUBLIC_DEFAULT_MODEL": "deepseek/deepseek-chat-v3",
     "NEXT_PUBLIC_RESTRICTED_MODELS": "true"
   },
