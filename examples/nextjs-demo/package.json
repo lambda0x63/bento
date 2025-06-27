@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/multer": "^1.4.13",
     "@types/node": "^20",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "file-loader": "^6.2.0",
