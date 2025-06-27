@@ -1,4 +1,4 @@
-import { createBentoServer } from 'bento-core'
+import { createBentoServer } from '@bento/core'
 import { NextRequest } from 'next/server'
 
 let bentoServer: ReturnType<typeof createBentoServer> | null = null

@@ -191,7 +191,7 @@ const server = createBentoServer({
 
 ### Dockerfile
 
-```dockerfile
+```docker
 FROM node:18-alpine
 
 WORKDIR /app
