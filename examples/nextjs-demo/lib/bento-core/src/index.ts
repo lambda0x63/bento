@@ -49,11 +49,11 @@ export class BentoServer {
       if (this.config.isolation === 'session') {
         // Run cleanup every hour
         setInterval(() => {
-          cleanupSessions(this.config).catch(console.error)
+          cleanupSessions()
         }, 60 * 60 * 1000)
         
         // Initial cleanup
-        cleanupSessions(this.config).catch(console.error)
+        cleanupSessions()
       }
       
       serve({
