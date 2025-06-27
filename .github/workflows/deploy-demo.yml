@@ -1,0 +1,39 @@
+name: Deploy Next.js Demo
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'examples/nextjs-demo/**'
+      - 'packages/bento-core/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          npm install
+          cd examples/nextjs-demo
+          npm install
+          
+      - name: Build
+        run: |
+          cd examples/nextjs-demo
+          npm run build
+          
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./examples/nextjs-demo

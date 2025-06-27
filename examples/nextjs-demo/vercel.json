@@ -1,0 +1,17 @@
+{
+  "buildCommand": "cd ../.. && npm install && cd examples/nextjs-demo && npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "cd ../.. && npm install && cd examples/nextjs-demo && npm install",
+  "framework": "nextjs",
+  "regions": ["icn1"],
+  "env": {
+    "OPENROUTER_API_KEY": "@openrouter-api-key",
+    "NEXT_PUBLIC_DEFAULT_MODEL": "deepseek/deepseek-chat-v3",
+    "NEXT_PUBLIC_RESTRICTED_MODELS": "true"
+  },
+  "functions": {
+    "app/api/bento/[...path]/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

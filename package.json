@@ -1,0 +1,35 @@
+{
+  "name": "bento",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The simplest way to build LLM + RAG in 5 minutes",
+  "scripts": {
+    "dev:demo": "cd examples/nextjs-demo && npm run dev",
+    "build:core": "cd packages/bento-core && npm run build",
+    "build:cli": "cd packages/create-bento-app && npm run build",
+    "build": "npm run build:core && npm run build:cli",
+    "docs:dev": "cd docs && npm run dev",
+    "docs:build": "cd docs && npm run build",
+    "docs:serve": "cd docs && npm run serve",
+    "test": "echo \"No tests yet\"",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [
+    "chatgpt",
+    "rag",
+    "ai",
+    "openrouter",
+    "vectordb",
+    "lancedb",
+    "bento"
+  ],
+  "author": "lambda0x63",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lambda0x63/bento"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
