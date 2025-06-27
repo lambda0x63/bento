@@ -42,13 +42,11 @@ export interface SearchResponse {
 }
 
 export class DocumentService {
-  private baseUrl = '/api/bento/documents'
-
   async uploadDocument(file: File): Promise<UploadResponse> {
     const formData = new FormData()
     formData.append('file', file)
 
-    const response = await fetch(`${this.baseUrl}/upload`, {
+    const response = await fetch('/api/bento-proxy?path=/documents/upload', {
       method: 'POST',
       headers: getAuthHeaders(),
       body: formData,
@@ -63,7 +61,7 @@ export class DocumentService {
   }
 
   async listDocuments(): Promise<{ documents: Document[] }> {
-    const response = await fetch(`${this.baseUrl}/list`, {
+    const response = await fetch('/api/bento-proxy?path=/documents/list', {
       headers: getAuthHeaders()
     })
     
@@ -75,7 +73,7 @@ export class DocumentService {
   }
 
   async searchDocuments(query: string, limit = 5): Promise<SearchResponse> {
-    const response = await fetch(`${this.baseUrl}/search`, {
+    const response = await fetch('/api/bento-proxy?path=/documents/search', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +90,7 @@ export class DocumentService {
   }
 
   async deleteDocument(id: string): Promise<void> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
+    const response = await fetch(`/api/bento-proxy?path=/documents/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders()
     })
