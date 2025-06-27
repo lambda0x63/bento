@@ -1,6 +1,4 @@
 import { Context, Next } from 'hono'
-import path from 'path'
-import fs from 'fs/promises'
 import crypto from 'crypto'
 import { BentoConfig } from '../types'
 
@@ -10,8 +8,8 @@ export interface IsolationData {
   lastAccessedAt: number
 }
 
-// Session expires after 24 hours of inactivity
-const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000
+// In-memory session storage for serverless
+const sessions = new Map<string, IsolationData>()
 
 export function createIsolationMiddleware(config: BentoConfig) {
   return async function isolationMiddleware(c: Context, next: Next) {
@@ -36,8 +34,8 @@ export function createIsolationMiddleware(config: BentoConfig) {
           isolationKey = crypto.randomBytes(16).toString('hex')
         }
         
-        // Track session for cleanup
-        await trackSession(isolationKey)
+        // Track session in memory
+        trackSession(isolationKey)
         
         // Add session ID to response header
         c.header('x-session-id', isolationKey)
@@ -57,79 +55,39 @@ export function createIsolationMiddleware(config: BentoConfig) {
   }
 }
 
-async function trackSession(sessionId: string) {
-  const sessionPath = path.resolve('./data/sessions', sessionId)
-  const sessionFile = path.join(sessionPath, 'session.json')
+function trackSession(sessionId: string) {
+  const now = Date.now()
+  const existing = sessions.get(sessionId)
   
-  try {
-    await fs.mkdir(sessionPath, { recursive: true })
-    
-    const sessionData: IsolationData = {
-      id: sessionId,
-      createdAt: Date.now(),
-      lastAccessedAt: Date.now()
-    }
-    
-    // Try to read existing session
-    try {
-      const existing = JSON.parse(await fs.readFile(sessionFile, 'utf-8'))
-      sessionData.createdAt = existing.createdAt
-    } catch {
-      // New session
-    }
-    
-    // Update session file
-    await fs.writeFile(sessionFile, JSON.stringify(sessionData, null, 2))
-  } catch (error) {
-    console.error('Session tracking error:', error)
+  sessions.set(sessionId, {
+    id: sessionId,
+    createdAt: existing?.createdAt || now,
+    lastAccessedAt: now
+  })
+  
+  // Clean up old sessions periodically
+  if (Math.random() < 0.01) { // 1% chance to run cleanup
+    cleanupSessions()
   }
 }
 
 // Get isolation path for vector DB or uploads
 export function getIsolatedPath(basePath: string, isolationKey?: string): string {
   if (!isolationKey) {
-    return path.join(basePath, 'shared')
+    return `${basePath}_shared`
   }
-  return path.join(basePath, 'isolated', isolationKey)
+  return `${basePath}_isolated_${isolationKey}`
 }
 
 // Cleanup old sessions
-export async function cleanupSessions(config: BentoConfig) {
-  if (config.isolation !== 'session') return
+export function cleanupSessions() {
+  const now = Date.now()
+  const SESSION_EXPIRY_MS = 24 * 60 * 60 * 1000 // 24 hours
   
-  try {
-    const sessionsDir = path.resolve('./data/sessions')
-    const sessions = await fs.readdir(sessionsDir)
-    
-    for (const sessionId of sessions) {
-      const sessionFile = path.join(sessionsDir, sessionId, 'session.json')
-      
-      try {
-        const data = JSON.parse(await fs.readFile(sessionFile, 'utf-8')) as IsolationData
-        
-        if (Date.now() - data.lastAccessedAt > SESSION_EXPIRY_MS) {
-          // Remove expired session data
-          await fs.rm(path.join(sessionsDir, sessionId), { recursive: true, force: true })
-          
-          // Clean up vector DB data
-          if (config.vectorDB?.path) {
-            const vectorPath = getIsolatedPath(config.vectorDB.path, sessionId)
-            await fs.rm(vectorPath, { recursive: true, force: true }).catch(() => {})
-          }
-          
-          // Clean up uploaded files
-          if (config.upload?.dir) {
-            const uploadPath = getIsolatedPath(config.upload.dir, sessionId)
-            await fs.rm(uploadPath, { recursive: true, force: true }).catch(() => {})
-          }
-          
-          console.log(`Cleaned up expired session: ${sessionId}`)
-        }
-      } catch {
-        // Skip invalid sessions
-      }
+  for (const [sessionId, data] of sessions.entries()) {
+    if (now - data.lastAccessedAt > SESSION_EXPIRY_MS) {
+      sessions.delete(sessionId)
+      console.log(`Cleaned up expired session: ${sessionId}`)
     }
-  } catch (error) {
-    // Ignore errors if sessions directory doesn't exist
   }
 }
