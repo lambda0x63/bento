@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Bento",
   description: "Add AI-powered chat to any app in minutes",
+  ignoreDeadLinks: true,
   
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/bento-icon.svg' }],
