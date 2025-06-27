@@ -25,7 +25,7 @@ export class ChatService {
     onError: (error: string) => void
   ) {
     try {
-      const response = await fetch('/api/bento-proxy?path=/chat/stream', {
+      const response = await fetch('/api/bento-proxy?path=/api/chat/stream', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export class ChatService {
 
   async getAvailableModels() {
     try {
-      const response = await fetch('/api/bento-proxy?path=/chat/models', {
+      const response = await fetch('/api/bento-proxy?path=/api/chat/models', {
         headers: getAuthHeaders()
       })
       const data = await response.json()
