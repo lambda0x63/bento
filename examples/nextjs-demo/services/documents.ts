@@ -46,7 +46,7 @@ export class DocumentService {
     const formData = new FormData()
     formData.append('file', file)
 
-    const response = await fetch('/api/bento-proxy?path=/documents/upload', {
+    const response = await fetch('/api/bento-proxy?path=/api/documents/upload', {
       method: 'POST',
       headers: getAuthHeaders(),
       body: formData,
@@ -61,7 +61,7 @@ export class DocumentService {
   }
 
   async listDocuments(): Promise<{ documents: Document[] }> {
-    const response = await fetch('/api/bento-proxy?path=/documents/list', {
+    const response = await fetch('/api/bento-proxy?path=/api/documents/list', {
       headers: getAuthHeaders()
     })
     
@@ -73,7 +73,7 @@ export class DocumentService {
   }
 
   async searchDocuments(query: string, limit = 5): Promise<SearchResponse> {
-    const response = await fetch('/api/bento-proxy?path=/documents/search', {
+    const response = await fetch('/api/bento-proxy?path=/api/documents/search', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export class DocumentService {
   }
 
   async deleteDocument(id: string): Promise<void> {
-    const response = await fetch(`/api/bento-proxy?path=/documents/${id}`, {
+    const response = await fetch(`/api/bento-proxy?path=/api/documents/${id}`, {
       method: 'DELETE',
       headers: getAuthHeaders()
     })
