@@ -2,7 +2,7 @@
 
 ## 🚀 Live Demo
 
-Experience Bento in action: **[bento-demo.vercel.app](https://bento-demo.vercel.app)**
+Experience Bento in action: **[nextjs-demo-fawn-three.vercel.app](https://nextjs-demo-fawn-three.vercel.app)**
 
 ## 📁 Available Examples
 
@@ -56,6 +56,6 @@ See [nextjs-demo/README-DEPLOY.md](./nextjs-demo/README-DEPLOY.md) for deploymen
 
 ## 📖 Learn More
 
-- [Bento Documentation](https://bento-docs.vercel.app)
-- [API Reference](https://bento-docs.vercel.app/api-reference)
+- [Bento Documentation](https://docs-coral-rho.vercel.app)
+- [API Reference](https://docs-coral-rho.vercel.app/api-reference)
 - [GitHub Repository](https://github.com/lambda0x63/bento)

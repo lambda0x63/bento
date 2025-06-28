@@ -2,7 +2,7 @@
 
 A full-featured example of Bento integrated with Next.js App Router.
 
-🚀 **[Live Demo](https://bento-demo.vercel.app)**
+🚀 **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)**
 
 ## Overview
 

@@ -47,7 +47,7 @@ In Vercel dashboard → Settings → Environment Variables:
 
 ```
 OPENROUTER_API_KEY=your_api_key_here
-SITE_URL=https://your-demo.vercel.app (optional)
+SITE_URL=https://nextjs-demo-fawn-three.vercel.app (optional)
 ```
 
 ## Custom Domain

@@ -31,7 +31,7 @@ server.start()
 
 ## Documentation
 
-For detailed documentation, visit: https://bento-docs.vercel.app
+For detailed documentation, visit: https://docs-coral-rho.vercel.app
 
 ## License
 

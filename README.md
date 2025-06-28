@@ -5,7 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/bento-core.svg)](https://www.npmjs.com/package/bento-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🚀 **[Live Demo](https://bento-demo.vercel.app)** | 📖 **[Documentation](https://bento-docs.vercel.app)**
+🚀 **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)** | 📖 **[Documentation](https://docs-coral-rho.vercel.app)**
 
 ## Quick Start
 
@@ -42,17 +42,17 @@ server.start()
 
 Visit our documentation site for detailed guides and API references:
 
-**[📖 Documentation](https://bento-docs.vercel.app)**
+**[📖 Documentation](https://docs-coral-rho.vercel.app)**
 
-- [Getting Started](https://bento-docs.vercel.app/getting-started)
-- [API Reference](https://bento-docs.vercel.app/api-reference)
-- [Examples](https://bento-docs.vercel.app/examples/react)
-- [User Isolation](https://bento-docs.vercel.app/user-isolation)
+- [Getting Started](https://docs-coral-rho.vercel.app/getting-started)
+- [API Reference](https://docs-coral-rho.vercel.app/api-reference)
+- [Examples](https://docs-coral-rho.vercel.app/examples/react)
+- [User Isolation](https://docs-coral-rho.vercel.app/user-isolation)
 
 ## Demo
 
 ### 🌐 Live Demo
-Try Bento instantly without any setup: **[bento-demo.vercel.app](https://bento-demo.vercel.app)**
+Try Bento instantly without any setup: **[nextjs-demo-fawn-three.vercel.app](https://nextjs-demo-fawn-three.vercel.app)**
 
 ### 💻 Run Demo Locally
 
