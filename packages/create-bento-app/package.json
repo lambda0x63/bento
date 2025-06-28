@@ -1,6 +1,6 @@
 {
   "name": "create-bento-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create Bento apps with one command",
   "bin": {
     "create-bento-app": "./dist/index.js"
@@ -15,7 +15,8 @@
   },
   "keywords": [
     "bento",
-    "chatgpt",
+    "ai",
+    "llm",
     "rag",
     "cli",
     "create-app"

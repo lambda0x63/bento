@@ -1,7 +1,7 @@
 {
   "name": "bento-core",
-  "version": "0.1.0",
-  "description": "The simplest way to build ChatGPT + RAG in 5 minutes",
+  "version": "0.1.2",
+  "description": "Add AI-powered chat with RAG to any app in minutes",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
