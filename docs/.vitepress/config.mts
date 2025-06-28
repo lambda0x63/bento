@@ -47,13 +47,6 @@ export default defineConfig({
           { text: 'Chat API', link: '/api/chat' },
           { text: 'Documents API', link: '/api/documents' }
         ]
-      },
-      {
-        text: 'Examples',
-        items: [
-          { text: 'React Demo', link: '/examples/react' },
-          { text: 'SvelteKit Integration', link: '/examples/sveltekit' }
-        ]
       }
     ],
 

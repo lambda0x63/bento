@@ -2,7 +2,7 @@
 
 ## 🚀 Live Demo
 
-Experience Bento in action: **[nextjs-demo-fawn-three.vercel.app](https://nextjs-demo-fawn-three.vercel.app)**
+Experience Bento in action: **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)**
 
 ## 📁 Available Examples
 

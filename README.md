@@ -44,15 +44,14 @@ Visit our documentation site for detailed guides and API references:
 
 **[📖 Documentation](https://docs-coral-rho.vercel.app)**
 
-- [Getting Started](https://docs-coral-rho.vercel.app/getting-started)
-- [API Reference](https://docs-coral-rho.vercel.app/api-reference)
-- [Examples](https://docs-coral-rho.vercel.app/examples/react)
-- [User Isolation](https://docs-coral-rho.vercel.app/user-isolation)
+- [Getting Started](https://docs-coral-rho.vercel.app/getting-started.html)
+- [API Reference](https://docs-coral-rho.vercel.app/api-reference.html)
+- [User Isolation](https://docs-coral-rho.vercel.app/user-isolation.html)
 
 ## Demo
 
 ### 🌐 Live Demo
-Try Bento instantly without any setup: **[nextjs-demo-fawn-three.vercel.app](https://nextjs-demo-fawn-three.vercel.app)**
+Try Bento instantly without any setup: **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)**
 
 ### 💻 Run Demo Locally
 
@@ -90,7 +89,3 @@ npm run build:cli
 ## License
 
 MIT © [lambda0x63](https://github.com/lambda0x63)
-
----
-
-<sub>* Except for the AI model API (OpenRouter)</sub>
