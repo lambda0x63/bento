@@ -28,6 +28,9 @@ import {
 import { ChatService, Message } from '@/services/chat'
 import { DocumentService, Document } from '@/services/documents'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const chatService = new ChatService()
 const documentService = new DocumentService()
@@ -106,19 +109,30 @@ export default function Home() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: input.trim(),
-      timestamp: new Date()
+  const handleCopyMessage = async (content: string) => {
+    try {
+      await navigator.clipboard.writeText(content)
+      // Optional: Add toast notification here
+    } catch (error) {
+      console.error('Failed to copy:', error)
     }
+  }
 
-    setMessages(prev => [...prev, userMessage])
-    setInput('')
+  const handleRegenerateMessage = async () => {
+    // Find the last user message
+    const lastUserMessageIndex = messages.findLastIndex(m => m.role === 'user')
+    if (lastUserMessageIndex === -1) return
+
+    // Remove all messages after the last user message
+    const messagesUntilLastUser = messages.slice(0, lastUserMessageIndex + 1)
+    setMessages(messagesUntilLastUser)
+
+    // Regenerate the response
+    const lastUserMessage = messages[lastUserMessageIndex]
+    await generateResponse(lastUserMessage.content, messagesUntilLastUser)
+  }
+
+  const generateResponse = async (userInput: string, previousMessages: Message[]) => {
     setIsLoading(true)
 
     const assistantMessage: Message = {
@@ -132,13 +146,10 @@ export default function Home() {
     setMessages(prev => [...prev, assistantMessage])
 
     await chatService.streamChat(
-      {
-        messages: [...messages, userMessage].map(m => ({
-          role: m.role,
-          content: m.content
-        })),
+      { 
+        messages: previousMessages.map(m => ({ role: m.role, content: m.content })).concat({ role: 'user', content: userInput }),
         model: currentModel,
-        ragEnabled
+        ragEnabled 
       },
       (chunk: string) => {
         setMessages(prev => 
@@ -164,6 +175,24 @@ export default function Home() {
         )
       }
     )
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim() || isLoading) return
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: input.trim(),
+      timestamp: new Date()
+    }
+
+    const updatedMessages = [...messages, userMessage]
+    setMessages(updatedMessages)
+    setInput('')
+    
+    await generateResponse(userMessage.content, updatedMessages)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -417,31 +446,100 @@ export default function Home() {
                               <>
                                 <div className="prose prose-sm dark:prose-invert max-w-none">
                                   <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
                                     components={{
-                                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                      ul: ({ children }) => <ul className="mb-2 last:mb-0">{children}</ul>,
-                                      ol: ({ children }) => <ol className="mb-2 last:mb-0">{children}</ol>,
-                                      h1: ({ children }) => <h1 className="text-2xl font-bold mb-2">{children}</h1>,
-                                      h2: ({ children }) => <h2 className="text-xl font-bold mb-2">{children}</h2>,
-                                      h3: ({ children }) => <h3 className="text-lg font-bold mb-2">{children}</h3>,
-                                      code: ({ children }) => (
-                                        <code className="px-1.5 py-0.5 rounded bg-muted text-sm">{children}</code>
+                                      p: ({ children }) => <p className="mb-3 last:mb-0 leading-7">{children}</p>,
+                                      ul: ({ children }) => <ul className="mb-3 last:mb-0 list-disc pl-6">{children}</ul>,
+                                      ol: ({ children }) => <ol className="mb-3 last:mb-0 list-decimal pl-6">{children}</ol>,
+                                      li: ({ children }) => <li className="mb-1">{children}</li>,
+                                      h1: ({ children }) => <h1 className="text-2xl font-bold mb-4 mt-6 first:mt-0">{children}</h1>,
+                                      h2: ({ children }) => <h2 className="text-xl font-bold mb-3 mt-5 first:mt-0">{children}</h2>,
+                                      h3: ({ children }) => <h3 className="text-lg font-bold mb-2 mt-4 first:mt-0">{children}</h3>,
+                                      h4: ({ children }) => <h4 className="text-base font-bold mb-2 mt-3 first:mt-0">{children}</h4>,
+                                      h5: ({ children }) => <h5 className="text-sm font-bold mb-1 mt-2 first:mt-0">{children}</h5>,
+                                      h6: ({ children }) => <h6 className="text-sm font-bold mb-1 mt-2 first:mt-0">{children}</h6>,
+                                      blockquote: ({ children }) => (
+                                        <blockquote className="border-l-4 border-muted-foreground/30 pl-4 py-1 my-3 italic text-muted-foreground">
+                                          {children}
+                                        </blockquote>
                                       ),
+                                      code: ({ className, children, ...props }: any) => {
+                                        const match = /language-(\w+)/.exec(className || '')
+                                        const inline = !match
+                                        return inline ? (
+                                          <code className="px-1.5 py-0.5 rounded bg-muted text-sm font-mono" {...props}>
+                                            {children}
+                                          </code>
+                                        ) : (
+                                          <SyntaxHighlighter
+                                            style={theme === 'dark' ? oneDark : undefined}
+                                            language={match[1]}
+                                            PreTag="div"
+                                            className="rounded-lg my-3 text-sm"
+                                            showLineNumbers={true}
+                                            customStyle={{
+                                              margin: 0,
+                                              background: theme === 'dark' ? '' : '#f4f4f5',
+                                              padding: '1rem',
+                                            }}
+                                          >
+                                            {String(children).replace(/\n$/, '')}
+                                          </SyntaxHighlighter>
+                                        )
+                                      },
+                                      pre: ({ children }) => <>{children}</>,
+                                      table: ({ children }) => (
+                                        <div className="overflow-x-auto my-3">
+                                          <table className="min-w-full border-collapse">{children}</table>
+                                        </div>
+                                      ),
+                                      thead: ({ children }) => <thead className="border-b-2 border-border">{children}</thead>,
+                                      tbody: ({ children }) => <tbody className="divide-y divide-border">{children}</tbody>,
+                                      tr: ({ children }) => <tr className="border-b border-border">{children}</tr>,
+                                      th: ({ children }) => (
+                                        <th className="px-4 py-2 text-left font-semibold text-sm">{children}</th>
+                                      ),
+                                      td: ({ children }) => <td className="px-4 py-2 text-sm">{children}</td>,
+                                      a: ({ href, children }) => (
+                                        <a
+                                          href={href}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-primary hover:underline"
+                                        >
+                                          {children}
+                                        </a>
+                                      ),
+                                      hr: () => <hr className="my-4 border-border" />,
+                                      strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                                      em: ({ children }) => <em className="italic">{children}</em>,
+                                      del: ({ children }) => <del className="line-through">{children}</del>,
                                     }}
                                   >
                                     {message.content}
                                   </ReactMarkdown>
                                 </div>
                                 <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
+                                  <button 
+                                    onClick={() => handleCopyMessage(message.content)}
+                                    className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+                                  >
                                     <CopyIcon className="h-3 w-3" />
                                     Copy
                                   </button>
-                                  <span className="text-xs text-muted-foreground">•</span>
-                                  <button className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-                                    <ReloadIcon className="h-3 w-3" />
-                                    Regenerate
-                                  </button>
+                                  {isLastMessage && (
+                                    <>
+                                      <span className="text-xs text-muted-foreground">•</span>
+                                      <button 
+                                        onClick={handleRegenerateMessage}
+                                        disabled={isLoading}
+                                        className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                      >
+                                        <ReloadIcon className="h-3 w-3" />
+                                        Regenerate
+                                      </button>
+                                    </>
+                                  )}
                                 </div>
                               </>
                             )}

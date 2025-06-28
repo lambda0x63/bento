@@ -51,7 +51,7 @@ Visit our documentation site for detailed guides and API references:
 ## Demo
 
 ### 🌐 Live Demo
-Try Bento instantly without any setup: **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)**
+Try Bento instantly without any setup: **[Live Demo →](https://nextjs-demo-fawn-three.vercel.app)**
 
 ### 💻 Run Demo Locally
 
