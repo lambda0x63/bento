@@ -31,7 +31,7 @@ server.start()
 
 ## Documentation
 
-For detailed documentation, visit: https://docs-coral-rho.vercel.app
+For detailed documentation, visit: [Documentation](https://docs-coral-rho.vercel.app)
 
 ## License
 

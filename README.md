@@ -5,7 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/bento-core.svg)](https://www.npmjs.com/package/bento-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🚀 **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)** | 📖 **[Documentation](https://docs-coral-rho.vercel.app)**
+🚀 **[Live Demo](https://nextjs-demo-fawn-three.vercel.app)** | 📖 **[Documentation](https://docs-coral-rho.vercel.app)** | 📦 **[NPM Package](https://www.npmjs.com/package/bento-core)**
 
 ## Quick Start
 
