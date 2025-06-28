@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
 import { BentoConfig } from '../types'
 
-// OpenRouter는 OpenAI 호환 API
+// OpenRouter is an OpenAI-compatible API
 function createOpenRouterClient(config: BentoConfig) {
   return new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -13,7 +13,7 @@ function createOpenRouterClient(config: BentoConfig) {
   })
 }
 
-// 사용 가능한 모델 목록 (자주 쓰는 것들)
+// List of available models (commonly used ones)
 export const MODELS = {
   // OpenAI
   'gpt-4-turbo': 'openai/gpt-4-turbo-preview',
@@ -39,7 +39,7 @@ export const MODELS = {
 
 export type ModelId = keyof typeof MODELS
 
-// 모델 정보 가져오기
+// Get available model information
 export async function getAvailableModels() {
   try {
     const response = await fetch('https://openrouter.ai/api/v1/models')
@@ -54,7 +54,7 @@ export async function getAvailableModels() {
   }
 }
 
-// 스트리밍 채팅
+// Streaming chat
 export async function* streamChat(
   messages: OpenAI.ChatCompletionMessageParam[],
   model: string = MODELS['gpt-3.5'],
@@ -82,7 +82,7 @@ export async function* streamChat(
   }
 }
 
-// 임베딩 생성 (RAG용)
+// Create embeddings (for RAG)
 export async function createEmbedding(text: string, config: BentoConfig) {
   const openrouter = createOpenRouterClient(config)
   
