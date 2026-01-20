@@ -36,14 +36,14 @@ RAG(Retrieval-Augmented Generation) 기반 AI 백엔드 프레임워크 및 스�
 ## 설치 및 실행 (Installation)
 
 ### CLI 도구 사용 (Recommended)
-`create-bento-app`을 사용하여 신규 프로젝트 생성:
+`create-bento-app`을 사용하여 신규 프로젝트 생성
 
 ```bash
 npx create-bento-app@latest my-ai-app
 ```
 
 ### 라이브러리 설치 (Manual)
-기존 프로젝트에 코어 패키지 의존성 추가:
+기존 프로젝트에 코어 패키지 의존성 추가
 
 ```bash
 npm install bento-core
@@ -51,7 +51,7 @@ npm install bento-core
 
 ## 개발 환경 설정 (Development)
 
-모노레포(Monorepo) 구조로 관리되는 패키지 빌드 방법:
+모노레포(Monorepo) 구조로 관리되는 패키지 빌드 방법
 
 ```bash
 # 의존성 설치
